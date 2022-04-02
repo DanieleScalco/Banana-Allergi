@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - Banana
+  - Powerup
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Banana
+  - Water
+  - UI
+  - Powerups
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: BackBorders
+    uniqueID: 2046439161
+    locked: 0
+  - name: Sky
+    uniqueID: 2008299777
+    locked: 0
+  - name: Trees
+    uniqueID: 2306030353
+    locked: 0
+  - name: Ground
+    uniqueID: 1918753385
+    locked: 0
+  - name: Foreground
+    uniqueID: 4107346117
+    locked: 0
