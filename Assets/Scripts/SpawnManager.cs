@@ -12,7 +12,7 @@ public class SpawnManager : MonoBehaviour {
 	public float spawnTimeBanana = 2;
 	private float whenSpawnTimeBanana;
 	public int numberBananasSpawned = 2;
-	private int timeToIncreaseBananas = 45;
+	private int timeToIncreaseBananas = 60;
 	private int increaseSpeedBanana = 25;
 
 	private float spawnTimeIncreaseDifficulty = 10;
@@ -58,16 +58,20 @@ public class SpawnManager : MonoBehaviour {
 			if (currentTime > whenSpawnTimeIncreaseDifficulty) {
 
 				// Decrease spawn time
-				if (spawnTimeBanana > 0.1f)
+				if (spawnTimeBanana > 1f)
 					spawnTimeBanana -= 0.1f;
 
 				// Increase banana speed
 				MoveBanana.force += increaseSpeedBanana;
 
-				whenSpawnTimeIncreaseDifficulty += spawnTimeIncreaseDifficulty;
+				// Increase number of bananas
 				if (whenSpawnTimeIncreaseDifficulty % timeToIncreaseBananas == 0) {
 					numberBananasSpawned++;
+					spawnTimeBanana += 0.2f; // Slow a bit spawn rate when increase bananas
+					MoveBanana.force -= 2 * increaseSpeedBanana;
 				}
+				
+				whenSpawnTimeIncreaseDifficulty += spawnTimeIncreaseDifficulty;
 
 			}
 

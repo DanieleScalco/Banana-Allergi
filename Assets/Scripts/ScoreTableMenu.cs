@@ -7,7 +7,6 @@ public class ScoreTableMenu : MonoBehaviour {
 	private List<string> playerName;
 	private List<int> playerScore;
 	private List<Transform> children;
-	public GameObject canvasScores;
 
 	// Start is called before the first frame update
 	void Start() {
@@ -65,7 +64,4 @@ public class ScoreTableMenu : MonoBehaviour {
 		}
 	}
 
-	public void CloseScore() {
-		canvasScores.SetActive(false);
-	}
 }
