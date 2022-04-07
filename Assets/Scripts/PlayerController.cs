@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
-	public float horizontalRange = 19.0f;
+	public float horizontalRange;
 	public float speed;
     public float gravityModifier;
     private bool onGround = true;
     public float jumpForce;
     public float jumpForceDown;
+    private float modifierAir;
 
     public GameObject endGameMenu;
     public GameObject explosion;
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour {
     
     public static int health = 3;
 
-	// Start is called before the first frame update
+    // Start is called before the first frame update
 	void Start() {
 
 		rigidbody = GetComponent<Rigidbody2D>();
@@ -35,30 +36,29 @@ public class PlayerController : MonoBehaviour {
         animator = GetComponent<Animator>();
 
         Physics2D.gravity *= gravityModifier;   // If needed to change gravity
-    }
 
-    // Update is called once per frame
-    void Update() {
+	}
+
+	// Update is called once per frame
+	void Update() {
 
 	    if (!SpawnManager.isGameOver) {
 
-		    // Movements
-		    float modifierAir = onGround ? 1 : 0.8f; // Reduce mobility in air
-		    if (Input.GetKey(KeyCode.LeftArrow) && transform.position.x > -horizontalRange) {
-			    transform.Translate(speed * Time.deltaTime * Vector3.left * modifierAir);
-		    } else if (Input.GetKey(KeyCode.RightArrow) && transform.position.x < horizontalRange) {
-			    transform.Translate(speed * Time.deltaTime * Vector3.right * modifierAir);
+			// Movements
+		    modifierAir = onGround ? 1 : 0.8f; // Reduce mobility in air
+		    if (Input.GetKey(KeyCode.LeftArrow)) {
+			    MoveLeft();
+		    } else if (Input.GetKey(KeyCode.RightArrow)) {
+				MoveRight();
 		    }
 
-		    if (Input.GetKeyDown(KeyCode.UpArrow) && onGround) {
-				audioSource.PlayOneShot(jumpSound);
-			    rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-			    onGround = false;
-		    }
+			if (Input.GetKeyDown(KeyCode.UpArrow)) {
+				Jump();
+			}
 
 			// If in air can go down faster
-		    if (Input.GetKey(KeyCode.DownArrow) && !onGround) {
-				rigidbody.AddForce(Vector2.down * jumpForceDown, ForceMode2D.Impulse);
+		    if (Input.GetKey(KeyCode.DownArrow)) {
+			    ForceDown();
 		    }
 
 	    } else {
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour {
 	    }
     }
 
-    public void ActivateExplosion() {
+	public void ActivateExplosion() {
 	    Instantiate(explosion, transform.position, explosion.transform.rotation);
     }
 
@@ -109,5 +109,27 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+	public void MoveLeft() {
+		if (transform.position.x > -horizontalRange)
+			transform.Translate(modifierAir * speed * Time.deltaTime * Vector3.left);
+	}
+
+	public void MoveRight() {
+		if (transform.position.x < horizontalRange)
+			transform.Translate(modifierAir * speed * Time.deltaTime * Vector3.right);
+	}
+
+	public void Jump() {
+		if (onGround) {
+			audioSource.PlayOneShot(jumpSound);
+			rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+			onGround = false;
+		}
+	}
+
+	public void ForceDown() {
+		if (!onGround)
+			rigidbody.AddForce(Vector2.down * jumpForceDown, ForceMode2D.Impulse);
+	}
 
 }
